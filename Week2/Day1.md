@@ -8,13 +8,15 @@
    * SSH: port 22
    * HTTP: port 80
 
-2. Connect to the instance
+   ![image](./images/instance.png)
+
+2. Connected to the instance
 
    ```
    ssh -i key.pem ubuntu@<public-ip>
    ```
 
-3. Install Apache web server
+3. Installed Apache web server
 
    ```
    sudo apt update
@@ -28,91 +30,60 @@
    sudo systemctl enable apache2
    ```
 
-5. Create a simple website
+5. Created a simple website
 
    ```
    sudo nano /var/www/html/index.html
    ```
+   ![image](./images/index.png)
 
-images
+
 
 6. Verifying the website
- output 
+  ![image](./images/output.png)
 ---
 
 ### Part 2: Prepare the instance for scaling
 
-1. Create an AMI
-   From the EC2 console, create an image of this Ubuntu instance.
+1. Created an AMI
+   From the EC2 console, created an image of this Ubuntu instance.
 
-   images
+   ![image](./images/ami.png)
 
-2. Create a Launch Template
+2. Created a Launch Template
 
    * AMI: the one you created
    * Instance type: t2.micro
    * Security group: allow HTTP and SSH
-
-   Optional user data:
-
-   ```
-   #!/bin/bash
-   apt update
-   apt install apache2 -y
-   systemctl start apache2
-   ```
+   ![image](./images/launchtemp.png)
 
 ---
 
 ### Part 3: Configure Auto Scaling
 
-1. Create an Auto Scaling Group
+1. Created an Auto Scaling Group
 
    * Launch template: select the Ubuntu template
-   * Availability Zones: choose at least two
-   * Desired capacity: 1
-   * Min: 1
+   * Availability Zones:  two
+   * Desired capacity: 2
+   * Min: 2
    * Max: 3
+   ![image](./images/two_availability.png)
 
-2. Create and attach a Load Balancer
 
-   * Create an **Application Load Balancer**
-   * Listener: HTTP port 80
-   * Target group: instance type, port 80
-   * Attach the Auto Scaling Group to the target group
-
-3. Add scaling policies
+2. Added scaling policies
    Use target tracking scaling.
-   Example:
-
-   * Average CPU utilization: 60 percent
-
----
-
-### Part 4: Test Auto Scaling
-
-1. Generate CPU load
-
-   ```
-   sudo apt install stress -y
-   stress --cpu 2
-   ```
-
-2. Monitor scaling
-
-   * Watch CloudWatch metrics
-   * New instances should launch automatically
-   * Instances terminate when load stops
+   * Average CPU utilization: 50 percent
+   ![image](./images/scaling.png)
+   ![image](./images/autoscaling1.png)
 
 ---
 
-### Outcome
+### Auto Scaling
 
-At the end of Day 1, you will have:
+![image](./images/autoscaled.png)
 
-* An Ubuntu-based EC2 web server
-* An AMI and launch template
-* An Auto Scaling Group
-* A load-balanced, auto-scaling website
 
-If you want, I can shorten this into a **2–3 line daily log**, a **handwritten lab note**, or an **interview-ready explanation**.
+
+
+
