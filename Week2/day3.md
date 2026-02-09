@@ -468,7 +468,7 @@ Controls who can access S3 data.
 
 S3 provides:
 
-👉 Strong Read-After-Write Consistency
+Strong Read-After-Write Consistency
 Latest data is immediately available after upload or update.
 
 ---
