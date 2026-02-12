@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   options {
-    skipDefaultCheckout(true)   // prevents the auto checkout stage duplication
+    skipDefaultCheckout(true)
     timestamps()
   }
 
@@ -33,6 +33,14 @@ pipeline {
       steps {
         dir('terraform-jenkins') {
           sh 'terraform plan'
+        }
+      }
+    }
+
+    stage('Terraform Apply') {
+      steps {
+        dir('terraform-jenkins') {
+          sh 'terraform apply -auto-approve'
         }
       }
     }
