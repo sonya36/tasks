@@ -1,9 +1,13 @@
 pipeline {
   agent any
 
-  stages {
+  options {
+    skipDefaultCheckout(true)   // prevents the auto checkout stage duplication
+    timestamps()
+  }
 
-    stage('Checkout Code') {
+  stages {
+    stage('Checkout') {
       steps {
         checkout scm
       }
@@ -11,21 +15,27 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        sh 'terraform init'
+        dir('terraform-jenkins') {
+          sh 'terraform init'
+        }
       }
     }
 
     stage('Terraform Validate') {
       steps {
-        sh 'terraform validate'
+        dir('terraform-jenkins') {
+          sh 'terraform validate'
+        }
       }
     }
 
     stage('Terraform Plan') {
       steps {
-        sh 'terraform plan'
+        dir('terraform-jenkins') {
+          sh 'terraform plan'
+        }
       }
     }
-
   }
 }
+
