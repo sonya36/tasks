@@ -2,6 +2,7 @@ pipeline {
   agent any
 
   stages {
+
     stage('Checkout Code') {
       steps {
         checkout scm
@@ -10,26 +11,21 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        dir('terraform-jenkins') {
-          sh 'terraform init'
-        }
+        sh 'terraform init'
       }
     }
 
     stage('Terraform Validate') {
       steps {
-        dir('terraform-jenkins') {
-          sh 'terraform validate'
-        }
+        sh 'terraform validate'
       }
     }
 
     stage('Terraform Plan') {
       steps {
-        dir('terraform-jenkins') {
-          sh 'terraform plan'
-        }
+        sh 'terraform plan'
       }
     }
+
   }
 }
