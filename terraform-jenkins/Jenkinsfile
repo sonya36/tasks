@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Terraform Init') {
+            steps {
+                sh 'cd /home/ubuntu/tasks/terraform-jenkins && terraform init'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                sh 'cd /home/ubuntu/tasks/terraform-jenkins && terraform plan -out=tfplan'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                sh 'cd /home/ubuntu/tasks/terraform-jenkins && terraform apply -auto-approve tfplan'
+            }
+        }
+    }
+}
